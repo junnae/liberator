@@ -72,8 +72,28 @@ spec:
                             type: string
                           namespace:
                             description: The application's namespace. May be omitted
-                              if it should be in the same namespace as your application.
+                              if it should be in the same namespace as your application.F
                             type: string
+                          permissions:
+                            description: Permissions contains a set of permissions
+                              that are granted to the given application. Currently
+                              only applicable for Azure AD clients.
+                            properties:
+                              roles:
+                                description: Roles is a list of Azure AD roles that
+                                  are granted to the given application.
+                                items:
+                                  pattern: ^[a-z0-9-_./]+$
+                                  type: string
+                                type: array
+                              scopes:
+                                description: Scopes is a list of Azure AD scopes that
+                                  are granted to the given application.
+                                items:
+                                  pattern: ^[a-z0-9-_./]+$
+                                  type: string
+                                type: array
+                            type: object
                         required:
                         - application
                         type: object
@@ -142,8 +162,28 @@ spec:
                             type: string
                           namespace:
                             description: The application's namespace. May be omitted
-                              if it should be in the same namespace as your application.
+                              if it should be in the same namespace as your application.F
                             type: string
+                          permissions:
+                            description: Permissions contains a set of permissions
+                              that are granted to the given application. Currently
+                              only applicable for Azure AD clients.
+                            properties:
+                              roles:
+                                description: Roles is a list of Azure AD roles that
+                                  are granted to the given application.
+                                items:
+                                  pattern: ^[a-z0-9-_./]+$
+                                  type: string
+                                type: array
+                              scopes:
+                                description: Scopes is a list of Azure AD scopes that
+                                  are granted to the given application.
+                                items:
+                                  pattern: ^[a-z0-9-_./]+$
+                                  type: string
+                                type: array
+                            type: object
                         required:
                         - application
                         type: object
@@ -213,6 +253,9 @@ spec:
                 type: string
               type: array
             elastic:
+              description: To get your own Elastic Search instance head over to the
+                IaC-repo to provision each instance. See [navikt/aiven-iac](https://github.com/navikt/aiven-iac)
+                repository.
               properties:
                 instance:
                   description: Provisions an Elasticsearch instance and configures
@@ -599,6 +642,19 @@ spec:
             image:
               description: Your application's Docker image location and tag.
               type: string
+            influx:
+              description: An InfluxDB via Aiven. A typical use case for influxdb
+                is to store metrics from your application and visualize them in Grafana.
+              properties:
+                instance:
+                  description: 'Provisions an InfluxDB instance and configures your
+                    application to access it. Use the prefix: `influx-` + `team` that
+                    you specified in the [navikt/aiven-iac](https://github.com/navikt/aiven-iac)
+                    repository.'
+                  type: string
+              required:
+              - instance
+              type: object
             ingresses:
               description: List of URLs that will route HTTPS traffic to the application.
                 All URLs must start with `https://`. Domain availability differs according
